@@ -28,7 +28,7 @@ import com.example.moviedb.ui.theme.MovieDBTheme
 @Composable
 fun HomePage(
     onViewMoreClicked : (MovieListType) -> Unit,
-    onMovieClicked : () -> Unit,
+    onMovieClicked : (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -39,6 +39,7 @@ fun HomePage(
             listName = "Popular Movies",
             movieList = Movies().getPopularMovies(),
             onViewMoreClicked = { onViewMoreClicked(MovieListType.POPULAR) },
+            onMovieClicked = onMovieClicked
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -47,6 +48,7 @@ fun HomePage(
             listName = "Top Rated Movies",
             movieList = Movies().getTopRatedMovies(),
             onViewMoreClicked = {onViewMoreClicked(MovieListType.TOP_RATED)},
+            onMovieClicked = onMovieClicked
         )
         // If any favorite here
     }
@@ -57,6 +59,7 @@ fun HorizontalMoviesListPreview(
     listName : String,
     movieList : List<Movie>,
     onViewMoreClicked: () -> Unit,
+    onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -79,6 +82,7 @@ fun HorizontalMoviesListPreview(
             items(movieList.take(6)){ movie ->
                 MovieListItemCard(
                     movie,
+                    onMovieClicked,
                     modifier = Modifier.padding(8.dp)
                 )
             }

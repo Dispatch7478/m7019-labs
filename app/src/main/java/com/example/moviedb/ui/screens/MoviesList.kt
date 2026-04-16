@@ -25,6 +25,7 @@ import com.example.moviedb.ui.theme.MovieDBTheme
 fun MoviesList(
     title: String,
     list: List<Movie>,
+    onMovieClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -42,6 +43,7 @@ fun MoviesList(
             items(list){ movie ->
                 MovieListItemCard(
                     movie,
+                    onMovieClicked,
                     modifier = Modifier.padding(8.dp)
                 )
             }

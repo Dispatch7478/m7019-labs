@@ -14,21 +14,25 @@ class MovieViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(MovieDBUiState())
     val uiState : StateFlow<MovieDBUiState> = _uiState.asStateFlow()
 
-    fun setSelectedMovie(movie : Movie){
-        _uiState.update { state -> state.copy(selectedMovie = movie) }
+    fun setSelectedMovieId(movieId : Int?){
+        _uiState.update { state -> state.copy(selectedMovieId = movieId) }
     }
 
     fun setSelectedMovieList(listType: MovieListType){
         _uiState.update { state -> state.copy(selectedList = listType) }
     }
 
+    private  val db = Movies() // retrofit for lab 2 and all that jazzzzzzzzzzzzzzzzzz
     fun fetchMoviesForCurrentListType() : Pair<String, List<Movie>> {
-        val db = Movies() // retrofit for lab 2 and all that jazzzzzzzzzzzzzzzzzz
         val newList = when (_uiState.value.selectedList) {
             MovieListType.POPULAR -> return Pair("Popular Movies", db.getPopularMovies())
             MovieListType.TOP_RATED -> return Pair("Top Rated Movies", db.getTopRatedMovies())
         }
     }
+
+//    fun fetchSelectedMovie() : Movie{
+//
+//    }
 
     fun toggleFavorite(movie: Movie){
         _uiState.update { state ->

@@ -30,9 +30,6 @@ fun Navigation(
     // respective UI composables that use when the state changes.
     val uiState by viewModel.uiState.collectAsState()
 
-    // tmp db
-    val db = Movies()
-
     NavHost(
         navController = navController,
         startDestination = MovieDBScreen.Homepage.name,
@@ -44,7 +41,9 @@ fun Navigation(
                     viewModel.setSelectedMovieList(listType)
                     navController.navigate(MovieDBScreen.MoviesList.name)
                 },
-                onMovieClicked = {
+                onMovieClicked = { movieId ->
+                    viewModel.setSelectedMovieId(movieId)
+                    navController.navigate(MovieDBScreen.MovieDetails.name)
                 },
                 modifier = Modifier
                     .fillMaxSize()
@@ -55,11 +54,15 @@ fun Navigation(
             MoviesList(
                 title,
                 selectedList,
+                onMovieClicked = { movieId ->
+                    viewModel.setSelectedMovieId(movieId)
+                    navController.navigate(MovieDBScreen.MovieDetails.name)
+                } ,
                 modifier = Modifier
                     .fillMaxSize()
             )
         }
-        composable(route = MovieDBScreen.MovieDetails.name + "/{movieId}") {
+        composable(route = MovieDBScreen.MovieDetails.name) {
             MovieDetails()
         }
 //        composable(route = "") {
@@ -67,6 +70,7 @@ fun Navigation(
 //        }
     }
 }
+
 
 enum class MovieDBScreen { // might need later @StringRes val title: Int
     // each const is an obj
