@@ -1,13 +1,7 @@
 package com.example.moviedb.data
 
-data class Movie(
-    var id: Long = 0L,
-    var title: String,
-    var posterPath: String,
-    var backdropPath: String,
-    var releaseDate: String,
-    var overview: String
-)
+import com.example.moviedb.models.Movie
+
 
 class Movies {
     fun getMovies(): List<Movie>{
