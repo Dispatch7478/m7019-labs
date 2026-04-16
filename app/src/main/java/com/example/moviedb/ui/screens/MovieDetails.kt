@@ -12,6 +12,8 @@ import com.example.moviedb.ui.theme.MovieDBTheme
 fun MovieDetails (){
     Text(text = "basic info from the api details route")
 }
+
+
 @Preview
 @Composable
 fun MovieDetailPreview() {

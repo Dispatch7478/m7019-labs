@@ -5,20 +5,33 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.moviedb.data.MovieListType
+import com.example.moviedb.db.Movies
 import com.example.moviedb.ui.screens.HomePage
 import com.example.moviedb.ui.screens.MovieDetails
+import com.example.moviedb.ui.screens.MovieViewModel
 import com.example.moviedb.ui.screens.MoviesList
 
 
 @Composable
 fun Navigation(
+    navController: NavHostController,
+    viewModel: MovieViewModel,
     innerPadding : PaddingValues
 ){
-    val navController = rememberNavController()
+    // watch data stream in the viewModel and update the
+    // respective UI composables that use when the state changes.
+    val uiState by viewModel.uiState.collectAsState()
+
+    // tmp db
+    val db = Movies()
 
     NavHost(
         navController = navController,
@@ -27,19 +40,24 @@ fun Navigation(
     ) {
         composable(route = MovieDBScreen.Homepage.name,) {// route+"/{param}/{param}"
             HomePage(
-                onViewMoreClicked = {
+                onViewMoreClicked = { listType ->
+                    viewModel.setSelectedMovieList(listType)
                     navController.navigate(MovieDBScreen.MoviesList.name)
                 },
                 onMovieClicked = {
-
                 },
                 modifier = Modifier
                     .fillMaxSize()
-                    //.padding(dimensionResource(R.dimen.padding_medium))
             )
         }
         composable(route = MovieDBScreen.MoviesList.name) {
-            MoviesList()
+            val (title, selectedList) = viewModel.fetchMoviesForCurrentListType()
+            MoviesList(
+                title,
+                selectedList,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
         }
         composable(route = MovieDBScreen.MovieDetails.name + "/{movieId}") {
             MovieDetails()

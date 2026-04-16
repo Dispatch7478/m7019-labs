@@ -1,4 +1,4 @@
-package com.example.moviedb.data
+package com.example.moviedb.db
 
 import com.example.moviedb.models.Movie
 

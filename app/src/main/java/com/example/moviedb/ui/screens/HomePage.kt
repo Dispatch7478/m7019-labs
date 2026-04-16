@@ -18,7 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moviedb.data.Movies
+import com.example.moviedb.data.MovieListType
+import com.example.moviedb.db.Movies
 import com.example.moviedb.models.Movie
 import com.example.moviedb.ui.components.MovieListItemCard
 import com.example.moviedb.ui.theme.MovieDBTheme
@@ -26,7 +27,7 @@ import com.example.moviedb.ui.theme.MovieDBTheme
 
 @Composable
 fun HomePage(
-    onViewMoreClicked : () -> Unit,
+    onViewMoreClicked : (MovieListType) -> Unit,
     onMovieClicked : () -> Unit,
     modifier: Modifier = Modifier
 ){
@@ -37,13 +38,15 @@ fun HomePage(
         HorizontalMoviesListPreview(
             listName = "Popular Movies",
             movieList = Movies().getPopularMovies(),
-            onViewMoreClicked = {},
+            onViewMoreClicked = { onViewMoreClicked(MovieListType.POPULAR) },
         )
+
         Spacer(modifier = Modifier.height(10.dp))
+
         HorizontalMoviesListPreview(
             listName = "Top Rated Movies",
             movieList = Movies().getTopRatedMovies(),
-            onViewMoreClicked = {},
+            onViewMoreClicked = {onViewMoreClicked(MovieListType.TOP_RATED)},
         )
         // If any favorite here
     }
