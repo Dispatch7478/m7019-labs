@@ -63,7 +63,15 @@ fun Navigation(
             )
         }
         composable(route = MovieDBScreen.MovieDetails.name) {
-            MovieDetails()
+            val currMovie = viewModel.fetchSelectedMovie()
+
+            MovieDetails(
+                currMovie,
+                isFavorite = viewModel.isFavorite(),
+                onFavoriteClicked = {viewModel.toggleFavorite(currMovie)},
+                modifier = Modifier
+                    .fillMaxSize()
+            )
         }
 //        composable(route = "") {
 //            //MovieReview

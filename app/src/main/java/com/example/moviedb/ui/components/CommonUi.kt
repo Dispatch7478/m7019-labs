@@ -26,9 +26,9 @@ import com.example.moviedb.db.Movies
 import com.example.moviedb.models.Movie
 import com.example.moviedb.ui.theme.MovieDBTheme
 
-private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
-private const val POSTER_IMAGE_BASE_WIDTH = "w500"
-private const val BACKDROP_IMAGE_BASE_WIDTH = "w1280"
+internal const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
+internal const val POSTER_IMAGE_BASE_WIDTH = "w500"
+internal const val BACKDROP_IMAGE_BASE_WIDTH = "w1280"
 @Composable
 fun MovieListItemCard(
     movie : Movie,

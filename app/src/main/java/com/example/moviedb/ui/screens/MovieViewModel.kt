@@ -30,13 +30,15 @@ class MovieViewModel : ViewModel() {
         }
     }
 
-//    fun fetchSelectedMovie() : Movie{
-//
-//    }
+    fun fetchSelectedMovie() : Movie?{
+        val currentMovieId = _uiState.value.selectedMovieId ?: return null
+        // firstOrNull alias
+        return db.getPopularMovies().find { it.id == currentMovieId }
+            ?: db.getTopRatedMovies().find { it.id == currentMovieId }
+    }
 
-    fun toggleFavorite(movie: Movie){
+    fun toggleFavorite(movie: Movie?){
         _uiState.update { state ->
-            // REVISIT AFTER MOVIE DETAILS SCREEN IMPL
             val currentFavorites = state.favoriteMovies.toMutableList()
             if (currentFavorites.contains(movie)){
                 currentFavorites.remove(movie)
@@ -45,5 +47,9 @@ class MovieViewModel : ViewModel() {
             }
             state.copy(favoriteMovies = currentFavorites )
         }
+    }
+
+    fun isFavorite() : Boolean {
+        return _uiState.value.favoriteMovies.contains(fetchSelectedMovie())
     }
 }
