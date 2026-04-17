@@ -1,5 +1,9 @@
 package com.example.moviedb.ui.screens
 
+import android.R
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import coil3.compose.AsyncImage
 import com.example.moviedb.models.Movie
 import com.example.moviedb.ui.components.BACKDROP_IMAGE_BASE_WIDTH
@@ -26,6 +31,7 @@ import com.example.moviedb.ui.components.IMAGE_BASE_URL
 @Composable
 fun MovieDetails (
     movie: Movie?,
+    onMovieImdbClicked: (String?) -> Unit,
     isFavorite: Boolean,
     onFavoriteClicked : () -> Unit,
     modifier: Modifier = Modifier
@@ -68,6 +74,17 @@ fun MovieDetails (
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    if (movie?.imdbId != null){
+                        onMovieImdbClicked(movie?.imdbId)
+                    }
+                }
+            ) {
+                Text(text = "View on IMDB")
+            }
+        }
 
         Row(modifier = Modifier.fillMaxWidth()){
             Text(

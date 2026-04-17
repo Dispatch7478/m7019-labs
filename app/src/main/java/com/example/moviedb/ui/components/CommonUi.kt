@@ -57,7 +57,6 @@ fun MovieListItemCard(
                     .width(175.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
-            // Async image here
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
