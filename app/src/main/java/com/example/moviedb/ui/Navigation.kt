@@ -1,9 +1,9 @@
 package com.example.moviedb.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,9 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.moviedb.data.MovieListType
-import com.example.moviedb.db.Movies
 import com.example.moviedb.ui.screens.HomePage
 import com.example.moviedb.ui.screens.MovieDetails
 import com.example.moviedb.ui.screens.MovieViewModel
@@ -64,14 +61,17 @@ fun Navigation(
         }
         composable(route = MovieDBScreen.MovieDetails.name) {
             val currMovie = viewModel.fetchSelectedMovie()
-
-            MovieDetails(
-                currMovie,
-                isFavorite = viewModel.isFavorite(),
-                onFavoriteClicked = {viewModel.toggleFavorite(currMovie)},
-                modifier = Modifier
-                    .fillMaxSize()
-            )
+            if (currMovie == null){
+                Text(text = "Error movie not found")
+            } else {
+                MovieDetails(
+                    currMovie,
+                    isFavorite = viewModel.isFavorite(),
+                    onFavoriteClicked = {viewModel.toggleFavorite(currMovie)},
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
         }
 //        composable(route = "") {
 //            //MovieReview
@@ -80,10 +80,10 @@ fun Navigation(
 }
 
 
-enum class MovieDBScreen { // might need later @StringRes val title: Int
+enum class MovieDBScreen (val title: String) { // might need later @StringRes val title: Int
     // each const is an obj
-    Homepage,
-    MoviesList,
-    MovieDetails,
+    Homepage("The Movie DB"),
+    MoviesList("Movie List"),
+    MovieDetails("Movie Details"),
     // Reviews
 }
